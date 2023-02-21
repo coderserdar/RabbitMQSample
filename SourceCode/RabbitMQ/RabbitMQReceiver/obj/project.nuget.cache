@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "EX/rDefwZI4vjqMAE8Nxq/NHG1+KrWpJYEmMz0i7JEh8pGnKCXtPJctKUel7ffupfIkEXhBTkqKq0H73F9C5ew==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\serda\\Documents\\GitHub\\RabbitMQSample\\SourceCode\\RabbitMQ\\RabbitMQReceiver\\RabbitMQReceiver.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\serda\\.nuget\\packages\\newtonsoft.json\\13.0.2\\newtonsoft.json.13.0.2.nupkg.sha512",
+    "C:\\Users\\serda\\.nuget\\packages\\rabbitmq.client\\6.4.0\\rabbitmq.client.6.4.0.nupkg.sha512",
+    "C:\\Users\\serda\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512",
+    "C:\\Users\\serda\\.nuget\\packages\\system.threading.channels\\4.7.1\\system.threading.channels.4.7.1.nupkg.sha512"
+  ],
+  "logs": []
+}
