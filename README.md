@@ -1,2 +1,3 @@
-# RabbitMQSample
-This is a sample project which shows how to use RabbitMQ basicly
+# RabbitMQ Sample
+
+![GitHub stars](https://img.shields.io/github/stars/coderserdar/RabbitMQSample?style=social) ![GitHub forks](https://img.shields.io/github/forks/coderserdar/RabbitMQSample?style=social) ![GitHub watchers](https://img.shields.io/github/watchers/coderserdar/RabbitMQSample?style=social) ![GitHub repo size](https://img.shields.io/github/repo-size/coderserdar/RabbitMQSample?style=plastic) ![GitHub language count](https://img.shields.io/github/languages/count/coderserdar/RabbitMQSample?style=plastic) ![GitHub top language](https://img.shields.io/github/languages/top/coderserdar/RabbitMQSample?style=plastic) ![GitHub last commit](https://img.shields.io/github/last-commit/coderserdar/RabbitMQSample?color=red&style=plastic) ![GitHub issues](https://img.shields.io/github/issues/coderserdar/RabbitMQSample)
