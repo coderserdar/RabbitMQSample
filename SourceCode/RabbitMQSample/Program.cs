@@ -15,11 +15,11 @@ public class Program
             var sayi = Console.ReadLine();
             if (int.TryParse(sayi, out int sayac))
             {
-                SendToRabbitMQ(sayac);
+                RabbitMQKuyrugaGonder(sayac);
                 Console.WriteLine("------------------------------------------");
                 Console.WriteLine("RabbitMQ kuyruğundan alma işlemleri için ekrana bir değer giriniz");
                 Console.ReadLine();
-                ReceiveFromRabbitMQ();
+                RabbitMQKuyruktanAl();
                 Console.WriteLine("------------------------------------------");
             }
             else
@@ -27,24 +27,24 @@ public class Program
                 if (sayi == "e" || sayi == "E")
                     programKapansinMi = true;
                 else
-                    Console.WriteLine($"{sayi} bir sayı veya çıkma isteği değildir");
+                    Console.WriteLine($"{sayi} geçerli bir sayı veya uygulama kapatma isteği değildir");
             }
         }
         Console.WriteLine("Programı kullandığınız için teşekkürler. İyi günler");
         Environment.Exit(0);
     }
 
-    private static void SendToRabbitMQ(int sayac)
+    private static void RabbitMQKuyrugaGonder(int sayac)
     {
         for (int i = 0; i < sayac; i++)
         {
             var testUsers = new Faker<Employee>()
                 .CustomInstantiator(f => new Employee())
-                .RuleFor(u => u.Name, f => f.Name.FirstName())
-                .RuleFor(u => u.Surname, f => f.Name.LastName())
-                .RuleFor(u => u.BirthPlace, (f, u) => f.Address.City())
-                .RuleFor(u => u.BirthDate, (f, u) => f.Person.DateOfBirth)
-                .RuleFor(u => u.ID, f => new Random().Next());
+                    .RuleFor(u => u.Name, f => f.Name.FirstName())
+                    .RuleFor(u => u.Surname, f => f.Name.LastName())
+                    .RuleFor(u => u.BirthPlace, (f, u) => f.Address.City())
+                    .RuleFor(u => u.BirthDate, (f, u) => f.Person.DateOfBirth)
+                    .RuleFor(u => u.ID, f => new Random().Next());
 
             var employee = testUsers.Generate();
 
@@ -52,19 +52,12 @@ public class Program
             using (IConnection connection = factory.CreateConnection())
             using (IModel channel = connection.CreateModel())
             {
-                channel.QueueDeclare(queue: "coderserdar",
-                                     durable: false,
-                                     exclusive: false,
-                                     autoDelete: false,
-                                     arguments: null);
-
+                channel.QueueDeclare(queue: "coderserdar", durable: false, exclusive: false, autoDelete: false, arguments: null);
+                
                 string message = JsonConvert.SerializeObject(employee);
                 var body = Encoding.UTF8.GetBytes(message);
 
-                channel.BasicPublish(exchange: "",
-                                     routingKey: "coderserdar",
-                                     basicProperties: null,
-                                     body: body);
+                channel.BasicPublish(exchange: "", routingKey: "coderserdar", basicProperties: null, body: body);
 
                 Console.WriteLine($"Gönderilen kişi: Adı Soyadı: {employee.Name} {employee.Surname} Doğum Tarihi: {employee.BirthDate.ToShortDateString()}");
                 Console.WriteLine((i + 1) + ". kişi gönderildi...");
@@ -72,17 +65,13 @@ public class Program
         }
     }
 
-    private static void ReceiveFromRabbitMQ()
+    private static void RabbitMQKuyruktanAl()
     {
         var factory = new ConnectionFactory() { HostName = "localhost" };
         using (IConnection connection = factory.CreateConnection())
         using (IModel channel = connection.CreateModel())
         {
-            channel.QueueDeclare(queue: "coderserdar",
-                                 durable: false,
-                                 exclusive: false,
-                                 autoDelete: false,
-                                 arguments: null);
+            channel.QueueDeclare(queue: "coderserdar", durable: false, exclusive: false, autoDelete: false, arguments: null);
 
             var consumer = new EventingBasicConsumer(channel);
             consumer.Received += (model, ea) =>
@@ -93,9 +82,8 @@ public class Program
                 Console.WriteLine($"Adı Soyadı: {employee.Name} {employee.Surname} [{employee.BirthPlace}]");
                 Console.WriteLine("RabbitMQ ile tanıştınız. İyi günler.");
             };
-            channel.BasicConsume(queue: "coderserdar",
-                                 autoAck: true,
-                                 consumer: consumer);
+
+            channel.BasicConsume(queue: "coderserdar", autoAck: true, consumer: consumer);
 
             Console.ReadLine();
         }
