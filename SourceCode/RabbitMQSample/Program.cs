@@ -9,21 +9,40 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        SendToRabbitMQ();
-        Console.WriteLine("Sunucundan alma işlemleri için ekrana bir değer giriniz");
-        Console.ReadLine();
-        ReceiveFromRabbitMQ();
+        var programKapansinMi = false;
+        while (!programKapansinMi) {
+            Console.WriteLine("RabbitMQ kuyruğuna kaç tane kayıt göndermek istiyorsunuz? (Programdan çıkmak için E veya e yazınız)");
+            var sayi = Console.ReadLine();
+            if (int.TryParse(sayi, out int sayac))
+            {
+                SendToRabbitMQ(sayac);
+                Console.WriteLine("------------------------------------------");
+                Console.WriteLine("RabbitMQ kuyruğundan alma işlemleri için ekrana bir değer giriniz");
+                Console.ReadLine();
+                ReceiveFromRabbitMQ();
+                Console.WriteLine("------------------------------------------");
+            }
+            else
+            {
+                if (sayi == "e" || sayi == "E")
+                    programKapansinMi = true;
+                else
+                    Console.WriteLine($"{sayi} bir sayı veya çıkma isteği değildir");
+            }
+        }
+        Console.WriteLine("Programı kullandığınız için teşekkürler. İyi günler");
+        Environment.Exit(0);
     }
 
-    private static void SendToRabbitMQ()
+    private static void SendToRabbitMQ(int sayac)
     {
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < sayac; i++)
         {
             var testUsers = new Faker<Employee>()
                 .CustomInstantiator(f => new Employee())
                 .RuleFor(u => u.Name, f => f.Name.FirstName())
                 .RuleFor(u => u.Surname, f => f.Name.LastName())
-                .RuleFor(u => u.Message, (f, u) => f.Address.City())
+                .RuleFor(u => u.BirthPlace, (f, u) => f.Address.City())
                 .RuleFor(u => u.BirthDate, (f, u) => f.Person.DateOfBirth)
                 .RuleFor(u => u.ID, f => new Random().Next());
 
@@ -71,7 +90,7 @@ public class Program
                 var body = ea.Body;
                 var message = Encoding.UTF8.GetString(body.ToArray());
                 Employee employee = JsonConvert.DeserializeObject<Employee>(message);
-                Console.WriteLine($"Adı Soyadı: {employee.Name} {employee.Surname} [{employee.Message}]");
+                Console.WriteLine($"Adı Soyadı: {employee.Name} {employee.Surname} [{employee.BirthPlace}]");
                 Console.WriteLine("RabbitMQ ile tanıştınız. İyi günler.");
             };
             channel.BasicConsume(queue: "coderserdar",
