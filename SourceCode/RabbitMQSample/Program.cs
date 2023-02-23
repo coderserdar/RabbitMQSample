@@ -47,7 +47,7 @@ public class Program
                                      basicProperties: null,
                                      body: body);
 
-                Console.WriteLine($"Gönderilen kişi: Adı: {employee.Name} Soyadı: {employee.Surname} Doğum Tarihi: {employee.BirthDate.ToShortDateString()}");
+                Console.WriteLine($"Gönderilen kişi: Adı Soyadı: {employee.Name} {employee.Surname} Doğum Tarihi: {employee.BirthDate.ToShortDateString()}");
                 Console.WriteLine((i + 1) + ". kişi gönderildi...");
             }
         }
@@ -71,7 +71,7 @@ public class Program
                 var body = ea.Body;
                 var message = Encoding.UTF8.GetString(body.ToArray());
                 Employee employee = JsonConvert.DeserializeObject<Employee>(message);
-                Console.WriteLine($"Adı: {employee.Name} Soyadı:{employee.Surname} [{employee.Message}]");
+                Console.WriteLine($"Adı Soyadı: {employee.Name} {employee.Surname} [{employee.Message}]");
                 Console.WriteLine("RabbitMQ ile tanıştınız. İyi günler.");
             };
             channel.BasicConsume(queue: "coderserdar",
