@@ -58,6 +58,8 @@ public class Program
     {
         for (int i = 0; i < kisiSayisi; i++)
         {
+            // Bogus kütüphanesi kullanılarak sahte veri içeren kişi kayıtlarının
+            // otomatik olarak oluşturulmasını sağlayan yapıdır
             var kisiOlusturucu = new Faker<Kisi>()
                 .CustomInstantiator(f => new Kisi())
                     .RuleFor(u => u.Adi, f => f.Name.FirstName())
