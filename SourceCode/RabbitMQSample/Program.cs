@@ -41,7 +41,10 @@ public class Program
                     programKapansinMi = true;
                 // eğer geçersiz bir sayı veya metin girerse gösterilecek hata mesajıdır
                 else
+                {
                     Console.WriteLine($"{sayi} geçerli bir sayı veya uygulama kapatma isteği değildir");
+                    Console.WriteLine("------------------------------------------");
+                }
             }
         }
         Console.WriteLine("Programı kullandığınız için teşekkürler. İyi günler");
