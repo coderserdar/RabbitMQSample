@@ -38,3 +38,4 @@ SourceCode/.vs/ProjectEvaluation/rabbitmq.projects.v6.1
 SourceCode/.vs/RabbitMQ/DesignTimeBuild/.dtbcache.v2
 SourceCode/.vs/RabbitMQ/v17/.futdcache.v2
 SourceCode/.vs/RabbitMQ/v17/.suo
+*.v2
